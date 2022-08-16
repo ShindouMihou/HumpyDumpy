@@ -1,9 +1,3 @@
-<div align=center>
-  Humpy Dumpy sat on a wall.
-</div>
-
-#
-
 ## 🧋 What is Humpy Dumpy?
 
 Humpy Dumpy is a simple Discord bot that aims to provide a snapshot of the join logs given a range of time for servers. It was created as a little boredom-reliever 
