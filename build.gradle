@@ -1,0 +1,42 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
+    id 'java'
+    id 'application'
+}
+
+group = 'pw.mihou'
+version = '1.0-SNAPSHOT'
+
+application {
+    mainClass = "pw.mihou.humpydumpy.MainKt"
+}
+
+task downloadDependencies(type: Copy) {
+    from sourceSets.test.runtimeClasspath
+    into 'runtime/'
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'pw.mihou:Nexus:fb07be9b5d'
+    implementation 'org.javacord:javacord:3.5.1-SNAPSHOT'
+    implementation 'org.mongodb:mongodb-driver-sync:4.7.1'
+    implementation 'pw.mihou:Dotenv:1.0.1'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'org.apache.logging.log4j:log4j-to-slf4j:2.18.0'
+    implementation 'io.javalin:javalin:4.6.4'
+    implementation 'com.auth0:java-jwt:4.0.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
