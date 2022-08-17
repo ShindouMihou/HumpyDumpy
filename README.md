@@ -3,6 +3,11 @@
 Humpy Dumpy is a simple Discord bot that aims to provide a snapshot of the join logs given a range of time for servers. It was created as a little boredom-reliever 
 based on an idea that came from suggestions of [Beemo](https://beemo.gg)'s Discord server which people wanted a simple and easy way to dump join logs.
 
+## 🏥 Public Bot
+
+Humpy Dumpy can be invited to your server with no permissions required, you can invite the publicly hosted bot if you do not want to self host:
+[`https://discord.com/api/oauth2/authorize?client_id=1009426851208384552&permissions=0&scope=applications.commands%20bot`](https://discord.com/api/oauth2/authorize?client_id=1009426851208384552&permissions=0&scope=applications.commands%20bot)
+
 ## 💭 How does Humpy Dumpy work?
 
 Humpy Dumpy works with the combination of MongoDB and Javacord to receive and store a snapshot of the user's information and related information onto a time-series 
@@ -60,11 +65,6 @@ view other servers that you own or manage. A token have a maximum of one hour ex
 of servers.
 
 ### 💭 Example Requests
-
-> **Warning**
->
-> Humpy Dumpy is not available publicly at the moment, but you can self-host it with the Dockerfile provided.
-> Please read the self-hosting section for more information.
 
 To understand how our requests look, let us say that we want to query our server's recent 30 minutes joins, we can simply open a new browser tab and run the following:
 ```
