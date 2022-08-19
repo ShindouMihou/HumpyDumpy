@@ -66,7 +66,7 @@ of the server if it happens to be accidentally exposed (always recommend using a
 
 ### 💭 Sharing Logs
 
-A best practice with Humpy Dumpy over sharing logs is to actually copying the response, saving it somewhere like GitHub Gist and sending it to whomever you like. 
+A best practice with Humpy Dumpy over sharing logs is to actually copy the response, saving it somewhere like GitHub Gist and sending it to whomever you like. 
 It is not recommended to share the actual link that contains the token at all because it leaves a chance for the join logs other than the selected points of time to be exposed.
 
 ### 💭 Example Requests
