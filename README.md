@@ -61,8 +61,13 @@ one (1) hour to prevent a misuse of the authentication token. Please keep this t
 ### 💭 Acquiring a JSON Web Token
 
 Acquiring a JSON Web Token is as simple as running the `/token` slash command on the server that you want to use the token on. A token is limited to only one server and you cannot use it to 
-view other servers that you own or manage. A token have a maximum of one hour expiration and configureable down to five minutes to ensure that it is used to expose view logs (invading privacy) 
-of servers.
+view other servers that you own or manage. A token have a maximum of one hour expiration and configureable down to five minutes to ensure that it is not used to expose joinlogs (invading privacy) 
+of the server if it happens to be accidentally exposed (always recommend using as less time as possible for token lifespan).
+
+### 💭 Sharing Logs
+
+A best practice with Humpy Dumpy over sharing logs is to actually copying the response, saving it somewhere like GitHub Gist and sending it to whomever you like. 
+It is not recommended to share the actual link that contains the token at all because it leaves a chance for the join logs other than the selected points of time to be exposed.
 
 ### 💭 Example Requests
 
