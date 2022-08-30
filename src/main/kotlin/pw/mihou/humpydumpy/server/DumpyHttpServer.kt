@@ -81,7 +81,6 @@ object DumpyHttpServer {
         SERVER.after { context ->
             HumpyDumpy.LOGGER.info(
                 "route" to context.path(),
-                "server" to (context.queryParam("server") ?: "N/A"),
                 "before" to (context.queryParam("before") ?: "N/A"),
                 "after" to (context.queryParam("after") ?: "N/A")
             )
