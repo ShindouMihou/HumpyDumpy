@@ -73,7 +73,7 @@ It is not recommended to share the actual link that contains the token at all be
 
 To understand how our requests look, let us say that we want to query our server's recent 30 minutes joins, we can simply open a new browser tab and run the following:
 ```
-http://humpydumpy.mihou.pw/range.json?server=<server_id>&after=30&token=<token>
+http://humpydumpy.mihou.pw/range.json?after=30&token=<token>
 ```
 
 The following query requests for all recent joins after (current_time - 30 minutes).
