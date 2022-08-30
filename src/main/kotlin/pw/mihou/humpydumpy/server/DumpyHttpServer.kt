@@ -30,7 +30,7 @@ object DumpyHttpServer {
         it.showJavalinBanner = false
     }
 
-    private val HUMPY_DUMPY_LYRICS = "Humpy Dumpy sat on a wall. Humpy Dumpy had a great fall. " +
+    private const val HUMPY_DUMPY_LYRICS = "Humpy Dumpy sat on a wall. Humpy Dumpy had a great fall. " +
             "All the king's horses and all the king's men; " +
             "Couldn't Put Humpy together again."
 
@@ -100,7 +100,6 @@ object DumpyHttpServer {
      * @return The results of the query, or null if not validated.
      */
     private fun range(context: Context): AggregateIterable<Document>? {
-        val server = context.queryParam("server")?.toLongOrNull()
         val token = context.queryParam("token")
 
         if (token == null) {
@@ -111,11 +110,6 @@ object DumpyHttpServer {
         val beforeInString = context.queryParam("before")
         val afterInString = context.queryParam("after")
 
-        if (server == null) {
-            context.status(400).result("error" to "Invalid or missing server parameter.")
-            return null
-        }
-
         try {
 
             val algorithm = Algorithm.HMAC256(DumpyConfig.JWT_SECRET)
@@ -124,9 +118,10 @@ object DumpyHttpServer {
                 .build()
 
             val decoded = verifier.verify(token)
+            val server: Long? = decoded.getClaim("authorized_for").asLong()
 
-            if (decoded.getClaim("authorized_for").asLong() != server) {
-                context.status(401).result("error" to "This token is not authorized to view the logs of the given SERVER.")
+            if (server == null) {
+                context.status(400).result("error" to "Invalid token parameter.")
                 return null
             }
 
