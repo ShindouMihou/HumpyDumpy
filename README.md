@@ -1,3 +1,6 @@
+![Humpy Dumpy Banner](https://user-images.githubusercontent.com/69381903/187454984-85544c6c-2cbf-4c84-a762-df70be5b33f7.png)
+
+
 ## 🧋 What is Humpy Dumpy?
 
 Humpy Dumpy is a simple Discord bot that aims to provide a snapshot of the join logs given a range of time for servers. It was created as a little boredom-reliever 
