@@ -65,17 +65,19 @@ object SnapshotDatabase {
                     .maxOf { it }
             }.sorted()
 
-            return@map timestamps.first()
-        }
+            return@map entry.key to timestamps.first()
+        }.toMap()
 
-        val before: Instant? = times.firstOrNull()?.toInstant()
-        val after: Instant? = if (times.size > 1) times.lastOrNull()?.toInstant() else null
+        // This may cause confusion like I did but before should be mapped with to
+        // and after should be mapped with from because (timestamp < before && timestamp > after).
+        val before: Instant? = times[to]?.toInstant()
+        val after: Instant? = times[from]?.toInstant()
 
         HumpyDumpy.LOGGER.info("Before: $before, After: $after")
         return range(server, before, after)
     }
 
-    fun timestamps(server: Long, vararg users: Long?) = connection.aggregate(listOf(
+    private fun timestamps(server: Long, vararg users: Long?) = connection.aggregate(listOf(
         Aggregates.match(
             Filters.eq("server", server)
         ),
