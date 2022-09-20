@@ -68,10 +68,10 @@ object SnapshotDatabase {
             return@map entry.key to timestamps.first()
         }.toMap()
 
-        // This may cause confusion like I did but before should be mapped with to
-        // and after should be mapped with from because (timestamp < before && timestamp > after).
-        val before: Instant? = times[to]?.toInstant()
-        val after: Instant? = times[from]?.toInstant()
+        // This may cause confusion like I did but before should be mapped with from
+        // and after should be mapped with to because (timestamp < before && timestamp > after).
+        val before: Instant? = times[from]?.toInstant()
+        val after: Instant? = times[to]?.toInstant()
 
         HumpyDumpy.LOGGER.info("Before: $before, After: $after")
         return range(server, before, after)
