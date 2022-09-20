@@ -82,7 +82,9 @@ object DumpyHttpServer {
             HumpyDumpy.LOGGER.info(
                 "route" to context.path(),
                 "before" to (context.queryParam("before") ?: "N/A"),
-                "after" to (context.queryParam("after") ?: "N/A")
+                "after" to (context.queryParam("after") ?: "N/A"),
+                "from" to (context.queryParam("from") ?: "N/A"),
+                "to" to (context.queryParam("to") ?: "N/A")
             )
         }
 
@@ -108,6 +110,9 @@ object DumpyHttpServer {
 
         val beforeInString = context.queryParam("before")
         val afterInString = context.queryParam("after")
+
+        val from = context.queryParam("from")?.toLongOrNull()
+        val to  = context.queryParam("to")?.toLongOrNull()
 
         try {
 
@@ -144,12 +149,16 @@ object DumpyHttpServer {
                 }
             }
 
-            if (before == null && after == null) {
-                context.status(400).result("error" to "Invalid or missing before or after parameters.")
+            if (before == null && after == null && to == null && from == null) {
+                context.status(400).result("error" to "Invalid or missing before, after or to, from parameters.")
                 return null
             }
 
-            return SnapshotDatabase.range(server, before, after)
+            if (before != null || after != null) {
+                return SnapshotDatabase.range(server, before, after)
+            }
+
+            return SnapshotDatabase.range(server, to, from)
         } catch (exception: JWTVerificationException) {
             context.status(401).result("error" to "Invalid or expired authorization token.")
             return null

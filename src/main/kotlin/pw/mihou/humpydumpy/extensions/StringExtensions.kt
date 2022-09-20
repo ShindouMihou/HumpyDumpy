@@ -2,6 +2,7 @@ package pw.mihou.humpydumpy.extensions
 
 import pw.mihou.humpydumpy.HumpyDumpy
 import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Translates the string into a [ZonedDateTime] given that the string matches the
@@ -15,3 +16,9 @@ import java.time.ZonedDateTime
 fun String.MODIFIED_RFC_1123_DATE(): ZonedDateTime {
     return ZonedDateTime.parse(this, HumpyDumpy.MODIFIED_RFC_1123_FORMATTER)
 }
+
+fun String.parse(formatter: DateTimeFormatter): ZonedDateTime {
+    return ZonedDateTime.parse(this, formatter)
+}
+
+val String.ISO_DATE_TIME get() = parse(DateTimeFormatter.ISO_DATE_TIME)

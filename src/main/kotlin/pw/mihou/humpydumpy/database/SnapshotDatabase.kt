@@ -2,15 +2,13 @@ package pw.mihou.humpydumpy.database
 
 import com.mongodb.client.AggregateIterable
 import com.mongodb.client.MongoCollection
-import com.mongodb.client.model.Aggregates
-import com.mongodb.client.model.CreateCollectionOptions
-import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Projections
-import com.mongodb.client.model.TimeSeriesOptions
+import com.mongodb.client.model.*
 import org.bson.Document
 import org.bson.conversions.Bson
 import pw.mihou.humpydumpy.HumpyDumpy
+import pw.mihou.humpydumpy.extensions.ISO_DATE_TIME
 import java.time.Instant
+import java.util.Date
 
 object SnapshotDatabase {
 
@@ -55,5 +53,39 @@ object SnapshotDatabase {
             Aggregates.project(Projections.exclude("_id"))
         ))
     }
+
+    fun range(server: Long, from: Long? = null, to: Long? = null): AggregateIterable<Document> {
+        if (from == null && to == null)
+            throw IllegalArgumentException("To and From cannot be null at the same time.")
+
+        val times = timestamps(server, from, to).map { entry ->
+            val timestamps = entry.value.map { document ->
+                document.getList("timestamp", Date::class.java)
+                    .map { it }
+                    .maxOf { it }
+            }.sorted()
+
+            return@map timestamps.first()
+        }
+
+        val before: Instant? = times.firstOrNull()?.toInstant()
+        val after: Instant? = if (times.size > 1) times.lastOrNull()?.toInstant() else null
+
+        HumpyDumpy.LOGGER.info("Before: $before, After: $after")
+        return range(server, before, after)
+    }
+
+    fun timestamps(server: Long, vararg users: Long?) = connection.aggregate(listOf(
+        Aggregates.match(
+            Filters.eq("server", server)
+        ),
+        Aggregates.match(
+            Filters.or(users.filterNotNull().map { user -> Filters.eq("user.id", user) })
+        ),
+        Aggregates.group(
+            "\$user.id",
+            Accumulators.addToSet("timestamp","\$timestamp")
+        )
+    )).groupBy { it.getLong("_id") }
 
 }
